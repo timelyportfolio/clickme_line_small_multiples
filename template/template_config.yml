@@ -1,0 +1,27 @@
+info: |
+  Produce a small multiples line chart using d3
+
+valid_names:
+
+name_comments: |
+
+
+scripts:
+  - http://d3js.org/d3.v3.min.js
+
+styles:
+
+
+default_parameters: {
+  width: 960,
+  height: 500,
+  title: Small Multiples in d3 With clickme
+}
+
+require_packages:
+  - df2json
+  - reshape2
+
+require_server: no
+
+original_url: http://blog.sdqali.in/visualizations/datamyheart/presentation
