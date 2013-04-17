@@ -4,6 +4,20 @@
     <meta charset="utf-8">
     <title>{{ opts$params$title }}</title>
     {{ append_external(opts) }}
+    <style>
+
+      svg {
+        font: 10px sans-serif;
+      }
+      
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+    </style>
 </head>
 
 <body>
@@ -50,7 +64,7 @@
   
   function drawSmallLineChart(series, container,max) {
           var margin={left:40,right:20,top:0,bottom:20};
-          var w = 200-margin.left-margin.right, h = 200-margin.top-margin.bottom;
+          var w = 250-margin.left-margin.right, h = 100-margin.top-margin.bottom;
   
           var color=d3.scale.category20();
   
@@ -69,7 +83,10 @@
   
           var dateFormatter = d3.time.format("%d/%m");
           var yAxis = d3.svg.axis().orient("left").ticks(5);
-          var xAxis = d3.svg.axis().orient("bottom").ticks(5);
+          var xAxis = d3.svg.axis()
+                          .orient("bottom")
+                          .ticks(5);
+                          //.tickFormat(d3.time.format("%b-%y")); 
   
   
           vis.selectAll("g")
