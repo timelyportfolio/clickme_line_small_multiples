@@ -31,7 +31,7 @@
 
         series.forEach(function (serie) {
                 serie.max=d3.max(serie.values,function(d) {return +d.value});
-                seie.min=d3.min(serie.values,function(d) {return +d.value});
+                serie.min=d3.min(serie.values,function(d) {return +d.value});
         })
 
         series.max = d3.max(series,function(d) {return d.max});
@@ -59,7 +59,7 @@
                 .attr("height",h+margin.top+margin.bottom)
                 .append("svg:g").attr("transform","translate("+margin.left +","+margin.top+")");
   
-          var x = d3.scale.linear().domain([0,series[0].value.length]).range([0,w]);
+          var x = d3.scale.linear().domain([0,series[0].values.length]).range([0,w]);
           var y = d3.scale.linear().domain([0,max]).range([h,0]);
           var line = d3.svg.line()
                    .x(function(d,i) {return x(i)})
@@ -67,7 +67,7 @@
   
           var dateFormatter = d3.time.format("%d/%m");
           var yAxis = d3.svg.axis().orient("left");
-          var xAxis = d3.svg.axis().orient("bottom").ticks(5);//.tickFormat(function(d) {return dateFormatter(series[0].value[d].date)}).ticks(3);
+          var xAxis = d3.svg.axis().orient("bottom").ticks(5);//.tickFormat(function(d) {return dateFormatter(series[0].values[d].date)}).ticks(3);
   
   
           vis.selectAll("g")
@@ -76,7 +76,7 @@
                    .append("svg:g")
                      .attr("class",function(d) {return d.key})
                            .append('svg:path')
-                           .attr("d",function(d) {return line(d.value)})
+                           .attr("d",function(d) {return line(d.values)})
                            .attr("stroke", function(d) {return color(d.key)})
                            .attr("stroke-width", "2.0")
                            .attr("fill","none");
