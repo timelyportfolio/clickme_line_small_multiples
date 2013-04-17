@@ -1,7 +1,10 @@
-### d3 Line in Small Multiples Ractive
+# d3 Line in Small Multiples Ractive
 
 
 ## JGB Yields by Maturity since Jan 2012 using R and clickme
+### [Live Example](http://bl.ocks.org/timelyportfolio/5407807)
+
+To recreate in R, copy/paste this code.
 
 ```{r,results="asis",message=FALSE,error=FALSE,warning=FALSE}
 #get Japan yield data from the Ministry of Finance Japan
