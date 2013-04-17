@@ -1,93 +1,93 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>clickme with rCharts polycharts line</title>
+    <title>{{ opts$params$title }}</title>
     {{ append_external(opts) }}
 </head>
 
 <body>
-<div id=small_multiples></div>
-
-<!-- see http://blog.sdqali.in/visualizations/datamyheart/presentation for original source-->
-
-<script>
-var series;
-var data = {{ get_data_as_json(opts) }};
-
-
-        var parse = d3.time.format("%Y-%m-%d").parse;
-
-        data=d;
-        data.forEach(function(s) {
-                s.date = parse(s.date);
-                s.total = +s.total;
-        })
-
-
-        series = d3.nest()
-               .key(function(d) {return d.indexname})
-               .sortValues(function(a,b) {return a.date<b.date?-1:(a.date==b.date)?0:1})
-               .entries(data);
-
-        series.forEach(function (serie) {
-                serie.max=d3.max(serie.values,function(d) {return +d.total});
-                seie.min=d3.min(serie.values,function(d) {return +d.total});
-        })
-
-        series.max = d3.max(series,function(d) {return d.max});
-
-        drawSmallMultiples(series,d3.select("#small_multiples"),series.max);
-
-});
-
-function drawSmallMultiples(series,container,max) {
-        series.forEach(function(serie) {
-                var smallContainer = container.append("div").attr("style","float:left")
-                smallContainer.append("div").append("p").attr("class","small_multiples_label").text(serie.key);
-                drawSmallLineChart([serie],smallContainer,max);
-        })
-}
-
-
-
-function drawSmallLineChart(series, container,max) {
-        var margin={left:20,right:20,top:20,bottom:20};
-        var w = 200-margin.left-margin.right, h = 200-margin.top-margin.bottom;
-
-        var color=d3.scale.category20();
-
-        var vis=container.append("svg:svg")
-              .attr("width",w+margin.left+margin.right)
-              .attr("height",h+margin.top+margin.bottom)
-              .append("svg:g").attr("transform","translate("+margin.left +","+margin.top+")");
-
-        var x = d3.scale.linear().domain([0,series[0].values.length]).range([0,w]);
-        var y = d3.scale.linear().domain([0,max]).range([h,0]);
-        var line = d3.svg.line()
-                                                         .x(function(d,i) {return x(i)})
-                                                         .y(function(d) {return y(d.total)}).interpolate("linear");
-
-        var dateFormatter = d3.time.format("%d/%m");
-        var yAxis = d3.svg.axis().orient("left");
-        var xAxis = d3.svg.axis().orient("bottom").ticks(5);//.tickFormat(function(d) {return dateFormatter(series[0].values[d].date)}).ticks(3);
-
-
-        vis.selectAll("g")
-           .data(series)
-                 .enter()
-                 .append("svg:g")
-                   .attr("class",function(d) {return d.key})
-                         .append('svg:path')
-                         .attr("d",function(d) {return line(d.values)})
-                         .attr("stroke", function(d) {return color(d.key)})
-                         .attr("stroke-width", "2.0")
-                         .attr("fill","none");
-
-        vis.append("g").attr("class","axis").call(yAxis.scale(y));
-        vis.append("g").attr("transform","translate(0,"+h+")").attr("class","axis").call(xAxis.scale(x));
-
-</script>
+  <div id=small_multiples></div>
+  
+  <!-- see http://blog.sdqali.in/visualizations/datamyheart/presentation for original source-->
+  
+  <script>
+  var series;
+  var data = {{ get_data_as_json(opts) }};
+  
+  
+          var parse = d3.time.format("%Y-%m-%d").parse;
+  
+          data=d;
+          data.forEach(function(s) {
+                  s.date = parse(s.date);
+                  s.total = +s.total;
+          })
+  
+  
+          series = d3.nest()
+                 .key(function(d) {return d.indexname})
+                 .sortvalue(function(a,b) {return a.date<b.date?-1:(a.date==b.date)?0:1})
+                 .entries(data);
+  
+          series.forEach(function (serie) {
+                  serie.max=d3.max(serie.value,function(d) {return +d.total});
+                  seie.min=d3.min(serie.value,function(d) {return +d.total});
+          })
+  
+          series.max = d3.max(series,function(d) {return d.max});
+  
+          drawSmallMultiples(series,d3.select("#small_multiples"),series.max);
+  
+  });
+  
+  function drawSmallMultiples(series,container,max) {
+          series.forEach(function(serie) {
+                  var smallContainer = container.append("div").attr("style","float:left")
+                  smallContainer.append("div").append("p").attr("class","small_multiples_label").text(serie.key);
+                  drawSmallLineChart([serie],smallContainer,max);
+          })
+  }
+  
+  
+  
+  function drawSmallLineChart(series, container,max) {
+          var margin={left:20,right:20,top:20,bottom:20};
+          var w = 200-margin.left-margin.right, h = 200-margin.top-margin.bottom;
+  
+          var color=d3.scale.category20();
+  
+          var vis=container.append("svg:svg")
+                .attr("width",w+margin.left+margin.right)
+                .attr("height",h+margin.top+margin.bottom)
+                .append("svg:g").attr("transform","translate("+margin.left +","+margin.top+")");
+  
+          var x = d3.scale.linear().domain([0,series[0].value.length]).range([0,w]);
+          var y = d3.scale.linear().domain([0,max]).range([h,0]);
+          var line = d3.svg.line()
+                   .x(function(d,i) {return x(i)})
+                   .y(function(d) {return y(d.total)}).interpolate("linear");
+  
+          var dateFormatter = d3.time.format("%d/%m");
+          var yAxis = d3.svg.axis().orient("left");
+          var xAxis = d3.svg.axis().orient("bottom").ticks(5);//.tickFormat(function(d) {return dateFormatter(series[0].value[d].date)}).ticks(3);
+  
+  
+          vis.selectAll("g")
+             .data(series)
+                   .enter()
+                   .append("svg:g")
+                     .attr("class",function(d) {return d.key})
+                           .append('svg:path')
+                           .attr("d",function(d) {return line(d.value)})
+                           .attr("stroke", function(d) {return color(d.key)})
+                           .attr("stroke-width", "2.0")
+                           .attr("fill","none");
+  
+          vis.append("g").attr("class","axis").call(yAxis.scale(y));
+          vis.append("g").attr("transform","translate(0,"+h+")").attr("class","axis").call(xAxis.scale(x));
+  
+  </script>
 
 </body>
 </html>
