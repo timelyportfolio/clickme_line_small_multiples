@@ -31,6 +31,8 @@
   
   
         var parse = d3.time.format("%Y-%m-%d").parse;
+        
+        var color=d3.scale.category20();        
 
         data.forEach(function(s) {
                 s.date = parse(s.date);
@@ -55,7 +57,13 @@
   function drawSmallMultiples(series,container,max) {
           series.forEach(function(serie) {
                   var smallContainer = container.append("div").attr("style","float:left")
-                  smallContainer.append("div").append("p").attr("class","small_multiples_label").text(serie.key);
+                  smallContainer
+                    .append("div")
+                      .append("p")
+                        .attr("class","small_multiples_label")
+                        .text(serie.key)
+                        .style("color", color(serie.key));
+                      
                   drawSmallLineChart([serie],smallContainer,max);
           })
   }
@@ -65,8 +73,6 @@
   function drawSmallLineChart(series, container,max) {
           var margin={left:40,right:20,top:0,bottom:20};
           var w = 250-margin.left-margin.right, h = 100-margin.top-margin.bottom;
-  
-          var color=d3.scale.category20();
   
           var vis=container.append("svg:svg")
                 .attr("width",w+margin.left+margin.right)
