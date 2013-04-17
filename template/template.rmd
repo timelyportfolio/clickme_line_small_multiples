@@ -12,34 +12,31 @@
   <!-- see http://blog.sdqali.in/visualizations/datamyheart/presentation for original source-->
   
   <script>
-  var series;
-  var data = {{ get_data_as_json(opts) }};
+        var series;
+        var data = {{ get_data_as_json(opts) }};
   
   
-          var parse = d3.time.format("%Y-%m-%d").parse;
-  
-          data=d;
-          data.forEach(function(s) {
-                  s.date = parse(s.date);
-                  s.total = +s.total;
-          })
-  
-  
-          series = d3.nest()
-                 .key(function(d) {return d.indexname})
-                 .sortvalue(function(a,b) {return a.date<b.date?-1:(a.date==b.date)?0:1})
-                 .entries(data);
-  
-          series.forEach(function (serie) {
-                  serie.max=d3.max(serie.value,function(d) {return +d.total});
-                  seie.min=d3.min(serie.value,function(d) {return +d.total});
-          })
-  
-          series.max = d3.max(series,function(d) {return d.max});
-  
-          drawSmallMultiples(series,d3.select("#small_multiples"),series.max);
-  
-  });
+        var parse = d3.time.format("%Y-%m-%d").parse;
+
+        data.forEach(function(s) {
+                s.date = parse(s.date);
+                s.value = +s.value;
+        })
+
+
+        series = d3.nest()
+               .key(function(d) {return d.indexname})
+               .sortValues(function(a,b) {return a.date<b.date?-1:(a.date==b.date)?0:1})
+               .entries(data);
+
+        series.forEach(function (serie) {
+                serie.max=d3.max(serie.values,function(d) {return +d.value});
+                seie.min=d3.min(serie.values,function(d) {return +d.value});
+        })
+
+        series.max = d3.max(series,function(d) {return d.max});
+
+        drawSmallMultiples(series,d3.select("#small_multiples"),series.max);
   
   function drawSmallMultiples(series,container,max) {
           series.forEach(function(serie) {
@@ -66,7 +63,7 @@
           var y = d3.scale.linear().domain([0,max]).range([h,0]);
           var line = d3.svg.line()
                    .x(function(d,i) {return x(i)})
-                   .y(function(d) {return y(d.total)}).interpolate("linear");
+                   .y(function(d) {return y(d.value)}).interpolate("linear");
   
           var dateFormatter = d3.time.format("%d/%m");
           var yAxis = d3.svg.axis().orient("left");
@@ -86,7 +83,9 @@
   
           vis.append("g").attr("class","axis").call(yAxis.scale(y));
           vis.append("g").attr("transform","translate(0,"+h+")").attr("class","axis").call(xAxis.scale(x));
-  
+
+      }
+      
   </script>
 
 </body>
