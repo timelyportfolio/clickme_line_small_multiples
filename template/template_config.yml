@@ -1,16 +1,17 @@
 info: |
   Produce a small multiples line chart using d3
 
-valid_names:
-
-name_comments: |
-
-
 scripts:
   - http://d3js.org/d3.v3.min.js
 
 styles:
 
+data_names:
+  required:
+    - "date"
+    - "indexname"
+    - "value"
+  optional:
 
 default_parameters: {
   width: 960,

@@ -1,27 +1,28 @@
-### JGB Yields by Maturity since Jan 2012
+### Currencies since Jan 2012 in d3 Small Multiples with Gridster
 
 ```{r,results="asis",message=FALSE,error=FALSE,warning=FALSE}
 #get Japan yield data from the Ministry of Finance Japan
 #data goes back to 1974
 
-require(xtsExtra)
+require(quantmod)
 require(clickme)
 
-url <- "http://www.mof.go.jp/english/jgbs/reference/interest_rate/"
-filenames <- paste("jgbcme",c("","_2010","_2000-2009","_1990-1999","_1980-1989","_1974-1979"),".csv",sep="")
+#get currency data from the FED FRED data series
+getSymbols("DEXKOUS",src="FRED") #load Korea
+getSymbols("DEXMAUS",src="FRED") #load Malaysia
+getSymbols("DEXSIUS",src="FRED") #load Singapore
+getSymbols("DEXTAUS",src="FRED") #load Taiwan
+getSymbols("DEXCHUS",src="FRED") #load China
+getSymbols("DEXJPUS",src="FRED") #load Japan
+getSymbols("DEXTHUS",src="FRED") #load Thailand
+getSymbols("DEXBZUS",src="FRED") #load Brazil
+getSymbols("DEXMXUS",src="FRED") #load Mexico
+getSymbols("DEXINUS",src="FRED") #load India
+getSymbols("DTWEXO",src="FRED") #load US Dollar Other Trading Partners
+getSymbols("DTWEXB",src="FRED") #load US Dollar Broad
 
-#load all data and combine into one jgb data.frame
-jgb <- read.csv(paste(url,filenames[1],sep=""),stringsAsFactors=FALSE)
-for (i in 2:length(filenames)) {
-  jgb <- rbind(jgb,read.csv(paste(url,"/historical/",filenames[i],sep=""),stringsAsFactors=FALSE))
-}
-
-#now clean up the jgb data.frame to make a jgb xts
-jgb.xts <- as.xts(data.matrix(jgb[,2:NCOL(jgb)]),order.by=as.Date(jgb[,1]))
-colnames(jgb.xts) <- paste0(gsub("X","JGB",colnames(jgb.xts)),"Y")
-
-#get Yen from the Fed
-#getSymbols("DEXJPUS",src="FRED")
+currencies<-merge(DEXKOUS,DEXMAUS,DEXSIUS,DEXTAUS,DEXCHUS,DEXJPUS,DEXTHUS,DEXBZUS,DEXMXUS,DEXINUS,DTWEXO,DTWEXB)
+currencies<-na.omit(currencies)
 
 xtsMelt <- function(data) {
     require(reshape2)
@@ -44,8 +45,8 @@ xtsMelt <- function(data) {
     
   }
   
-  jgb.melt <- xtsMelt(jgb.xts["2012::",])
+  currencies.melt <- xtsMelt(cumprod(1+currencies["2012::",]))
 
   set_root_path("c:/users/kent.tleavell_nt/dropbox/development/r")
-  clickme(jgb.melt,"clickme_line_small_multiples")
+  clickme(jgb.melt,"clickme_line_small_multiples_gridster")
 ```

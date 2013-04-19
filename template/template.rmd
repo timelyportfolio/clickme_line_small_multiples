@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ opts$params$title }}</title>
-    {{ append_external(opts) }}
+    {{ get_external(opts) }}
     <style>
 
       svg {
